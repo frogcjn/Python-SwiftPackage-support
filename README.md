@@ -5,7 +5,7 @@
     1. It will download compiled Python.xcframework from Python-Apple-Support
     2. Create an empty Swift Package
     3. Install them into the Swift Package, Patch on Python.xcframework for iOS and macOS, and dynamic libs (lib-dynload/*.so) in iOS.
-3. You know have Swift Package version of Python, without any additional work, just `import Python`! You could deploy it with App projects or other Swift Package projects.
+3. You know have Swift Package version of Python 3.13.0 could embed into your Swift apps and libraries, without any additional work, just `import Python`!
 4. Open the Example App, Enjoy!
 
 ![Screenshot_macOS](https://github.com/user-attachments/assets/ae1f2e22-4252-447a-b913-6e7bfe9e58a3)
