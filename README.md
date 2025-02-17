@@ -1,4 +1,4 @@
-# SwiftPackageSupportForPython
+# Python Swift Package Support
 
 1. Clone this repo
 2. Run `make.sh` in Shell
