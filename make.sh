@@ -119,21 +119,27 @@ install_python_xcframework_for_platform() {
     #RESOURCES_PATH=$FRAMEWORK_PATH/Resource
 
     #VERSIONS
-    if [[ $PLATFORM == macos* ]]; then
-        VERSIONS_PATH=$FRAMEWORK_PATH/Versions
+    #if [[ $PLATFORM == macos* ]]; then
+        # VERSIONS_PATH=$FRAMEWORK_PATH/Versions
         # ln -s $PYTHON_VER $VERSIONS_PATH/A
         # ln -s $PYTHON_VER $VERSIONS_PATH/Current
-    fi
+    #fi
 
-    #Python.framework/Modules/module.modulemap
+    #copy to Python.framework/Modules/module.modulemap
     MODULES_PATH=$FRAMEWORK_PATH/Modules
     mkdir -p $MODULES_PATH
     cp $PATCH_PATH/module.modulemap $MODULES_PATH/module.modulemap
 
-    #Python.framework/Headers
+    #copy to Python.framework/Headers
     HEADERS_PATH=$FRAMEWORK_PATH/Headers
+
+    #patch on cypthon/pyatomic.h #include "cpython/*.h" replative path issue
     cp $PATCH_PATH/fixed_cpython_pyatomic.h $HEADERS_PATH/cpython/pyatomic.h
+
+    #patch on py_curses.h NCURSES_OPAQUE redeine issue
     cp $PATCH_PATH/fixed_py_curses.h $HEADERS_PATH/py_curses.h
+
+    #patch on py_curses.h NCURSES_OPAQUE WINDOW type
     if [[ $PLATFORM == ios* ]]; then
         sed -i "" s/WINDOW/void/g $HEADERS_PATH/py_curses.h
     fi
@@ -164,7 +170,10 @@ install_python_xcframework_for_platform() {
             BINARY_PATH=$FRAMEWORK_PATH/$MODULE_NAME
             RPATH=Frameworks/$MODULE_NAME.framework/$MODULE_NAME
 
+            #install the dylib framework location
             mv $SO_PATH $BINARY_PATH
+
+            #patch on dylib install id
             install_name_tool -id @rpath/$RPATH $BINARY_PATH
             
             # Create a placeholder .fwork file where the .so was

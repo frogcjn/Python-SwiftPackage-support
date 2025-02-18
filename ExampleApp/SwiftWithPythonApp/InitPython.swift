@@ -1,5 +1,7 @@
 import Foundation
 import Python
+import Python.datetime
+import Python.pydtrace
 
 func setEnvs() {
     #if os(macOS)
